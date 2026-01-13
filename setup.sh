@@ -20,7 +20,7 @@ PROJECT_ROOT="$SCRIPT_DIR"
 # Configuration variables
 CONTAINER_NAME="traefik"
 HOST_PORT_HTTP=80
-HOST_PORT_DASHBOARD=8080
+HOST_PORT_DASHBOARD=8888
 DATA_DIR="$PROJECT_ROOT/data"
 CONFIG_DIR="$PROJECT_ROOT/config"
 
@@ -233,7 +233,7 @@ services:
       - no-new-privileges:true
     ports:
       - "80:80"      # HTTP
-      - "8080:8080"  # Dashboard
+      - "8888:8080"  # Dashboard
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./config/traefik.yml:/etc/traefik/traefik.yml:ro
@@ -305,8 +305,8 @@ start_traefik() {
     docker compose up -d
     echo -e "${GREEN}Traefik started successfully!${NC}"
     IP_ADDRESS=$(hostname -I | awk '{print $1}')
-    echo -e "${BLUE}Access dashboard at: http://${IP_ADDRESS}:8080${NC}"
-    echo -e "${BLUE}Or: http://traefik.localhost:8080${NC}"
+    echo -e "${BLUE}Access dashboard at: http://${IP_ADDRESS}:8888${NC}"
+    echo -e "${BLUE}Or: http://traefik.localhost:8888${NC}"
 }
 
 stop_traefik() {
@@ -390,8 +390,8 @@ access_shell() {
 show_dashboard() {
     IP_ADDRESS=$(hostname -I | awk '{print $1}')
     echo -e "${BLUE}Traefik Dashboard URLs:${NC}"
-    echo -e "${YELLOW}  http://${IP_ADDRESS}:8080${NC}"
-    echo -e "${YELLOW}  http://traefik.localhost:8080${NC}"
+    echo -e "${YELLOW}  http://${IP_ADDRESS}:8888${NC}"
+    echo -e "${YELLOW}  http://traefik.localhost:8888${NC}"
     echo ""
     echo -e "${BLUE}Note: Dashboard is currently insecure (HTTP only)${NC}"
     echo -e "${BLUE}This is expected for initial setup. HTTPS can be configured later.${NC}"
@@ -489,8 +489,8 @@ echo -e "${YELLOW}1. Start Traefik:${NC}"
 echo -e "   ./scripts/manage.sh start"
 echo ""
 echo -e "${YELLOW}2. Access Traefik Dashboard:${NC}"
-echo -e "   http://${IP_ADDRESS}:8080"
-echo -e "   Or: http://traefik.localhost:8080"
+echo -e "   http://${IP_ADDRESS}:8888"
+echo -e "   Or: http://traefik.localhost:8888"
 echo ""
 echo -e "${YELLOW}3. Configure services to use Traefik:${NC}"
 echo -e "   Add labels to your service containers to enable Traefik routing"

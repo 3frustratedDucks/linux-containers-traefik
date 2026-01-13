@@ -6,7 +6,7 @@ A complete Docker-based Traefik reverse proxy setup with HTTP support (port 80).
 
 - **Traefik v2.11** - Modern reverse proxy and load balancer
 - **HTTP Support** - Configured for port 80 (HTTP)
-- **Dashboard** - Web UI accessible on port 8080
+- **Dashboard** - Web UI accessible on port 8888
 - **Docker Provider** - Automatic service discovery from Docker containers
 - **Management Scripts** - Easy-to-use scripts for common operations
 - **Backup & Restore** - Built-in backup and restore functionality
@@ -42,8 +42,8 @@ A complete Docker-based Traefik reverse proxy setup with HTTP support (port 80).
 
 4. **Access Traefik Dashboard:**
    - Open your web browser
-   - Navigate to `http://YOUR-IP:8080`
-   - Or: `http://traefik.localhost:8080`
+   - Navigate to `http://YOUR-IP:8888`
+   - Or: `http://traefik.localhost:8888`
 
 ## Management
 
@@ -134,7 +134,7 @@ services:
 ## Ports
 
 - **80** - HTTP entry point (main traffic)
-- **8080** - Traefik dashboard (web UI)
+- **8888** - Traefik dashboard (web UI)
 
 ## Security
 
@@ -263,7 +263,7 @@ Edit `docker-compose.yml` to change ports:
 ```yaml
 ports:
   - "8081:80"      # Change HTTP port to 8081
-  - "9080:8080"    # Change dashboard port to 9080
+  - "9080:8080"    # Change dashboard port to 9080 (internal container port stays 8080)
 ```
 
 ### Resource Limits
@@ -363,7 +363,7 @@ Access the service at: `http://webapp.localhost`
 ## Next Steps
 
 1. **Start Traefik:** `./scripts/manage.sh start`
-2. **Access Dashboard:** `http://YOUR-IP:8080`
+2. **Access Dashboard:** `http://YOUR-IP:8888`
 3. **Add Services:** Configure your services with Traefik labels
 4. **Test Routing:** Verify services are accessible through Traefik
 5. **Add HTTPS:** When ready, configure Let's Encrypt (see documentation)
