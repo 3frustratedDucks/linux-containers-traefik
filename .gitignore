@@ -1,0 +1,22 @@
+# Traefik data
+data/
+
+# Backups
+backups/
+
+# Temporary files
+*.tmp
+*.log
+.DS_Store
+Thumbs.db
+
+# Configuration backups
+*.backup.*
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
