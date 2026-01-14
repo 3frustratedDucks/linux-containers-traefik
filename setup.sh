@@ -250,12 +250,12 @@ services:
     environment:
       - TZ=Europe/London
     command:
-      - "--certificatesresolvers.r53.acme.email=Mich@elDevlin.com
+      - "--certificatesresolvers.r53.acme.email=Mich@elDevlin.com"
       - "--certificatesresolvers.r53.acme.storage=/acme.json"
       - "--certificatesresolvers.r53.acme.tlschallenge=true"
       - "--certificatesresolvers.r53.acme.dnschallenge=true"
       - "--certificatesresolvers.r53.acme.dnschallenge.provider=r53"
-      - "--certificatesresolvers.r53.acme.dnschallenge.delayBeforeCheck=60
+      - "--certificatesresolvers.r53.acme.dnschallenge.delayBeforeCheck=60"
     networks:
       - traefik
     labels:
