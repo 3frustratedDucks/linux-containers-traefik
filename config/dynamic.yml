@@ -17,24 +17,24 @@ http:
       entryPoints:
         - websecure
       service: musicassistant
-      tls:
-        certResolver: r53
     
     portainer:
       rule: "Host(`portainer.broken.network`)"
       entryPoints:
         - websecure
       service: portainer
-      tls:
-        certResolver: r53
     
     www:
       rule: "Host(`www.broken.network`)"
       entryPoints:
         - websecure
       service: www
-      tls:
-        certResolver: r53
+
+    traefik-dashboard:
+      rule: "Host(`traefik.broken.network`)"
+      entrypoints:
+        - websecure
+      service: api@internal
 
   services:
     homeassistant:
