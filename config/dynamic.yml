@@ -1,0 +1,59 @@
+http:
+  routers:
+    homeassistant:
+      rule: "Host(`homeassistant.broken.network`)"
+      entryPoints:
+        - websecure
+      service: homeassistant
+      tls:
+        certResolver: r53
+        domains:
+          - main: "broken.network"
+            sans:
+              - "*.broken.network"
+    
+    musicassistant:
+      rule: "Host(`musicassistant.broken.network`)"
+      entryPoints:
+        - websecure
+      service: musicassistant
+      tls:
+        certResolver: r53
+    
+    portainer:
+      rule: "Host(`portainer.broken.network`)"
+      entryPoints:
+        - websecure
+      service: portainer
+      tls:
+        certResolver: r53
+    
+    www:
+      rule: "Host(`www.broken.network`)"
+      entryPoints:
+        - websecure
+      service: www
+      tls:
+        certResolver: r53
+
+  services:
+    homeassistant:
+      loadBalancer:
+        servers:
+          - url: "http://homeassistant.broken.network:8123"
+    
+    musicassistant:
+      loadBalancer:
+        servers:
+          - url: "http://musicassistant.broken.network:8095"
+    
+    portainer:
+      loadBalancer:
+        servers:
+          - url: "http://portainer.broken.network:9000"
+    
+    www:
+      loadBalancer:
+        servers:
+          - url: "http://www.broken.network:8080"
+

@@ -1,0 +1,37 @@
+api:
+  dashboard: true
+  insecure: true
+
+entryPoints:
+  web:
+    address: ":80"
+  websecure:
+    address: ":443"
+
+certificatesResolvers:
+  r53:
+    acme:
+      email: "Mich@elDevlin.com"
+      storage: "/acme.json"
+      dnsChallenge:
+        provider: "route53"
+        delayBeforeCheck: 60
+
+providers:
+  docker:
+    endpoint: "unix:///var/run/docker.sock"
+    exposedByDefault: false
+    network: traefik
+  file:
+    filename: /etc/traefik/dynamic.yml
+    watch: true
+
+log:
+  level: INFO
+
+accessLog: {}
+
+global:
+  checkNewVersion: true
+  sendAnonymousUsage: false
+
