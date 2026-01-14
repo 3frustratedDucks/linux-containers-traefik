@@ -135,16 +135,11 @@ mkdir -p "$PROJECT_ROOT/scripts"
 mkdir -p "$PROJECT_ROOT/backups"
 
 # Create Traefik configuration file
-echo -e "${YELLOW}Creating Traefik configuration...${NC}"
-
-# Backup existing traefik.yml if it exists
 if [ -f "$CONFIG_DIR/traefik.yml" ]; then
-    BACKUP_FILE="$CONFIG_DIR/traefik.yml.backup.$(date +%Y%m%d-%H%M%S)"
-    cp "$CONFIG_DIR/traefik.yml" "$BACKUP_FILE"
-    echo -e "${GREEN}Backup created: $BACKUP_FILE${NC}"
-fi
-
-cat > "$CONFIG_DIR/traefik.yml" << 'EOF'
+    echo -e "${YELLOW}traefik.yml already exists, skipping creation...${NC}"
+else
+    echo -e "${YELLOW}Creating Traefik configuration...${NC}"
+    cat > "$CONFIG_DIR/traefik.yml" << 'EOF'
 # Traefik configuration file
 # HTTP-only configuration (Let's Encrypt can be added later)
 
@@ -181,20 +176,15 @@ global:
   checkNewVersion: true
   sendAnonymousUsage: false
 EOF
-
-echo -e "${GREEN}Created Traefik configuration at $CONFIG_DIR/traefik.yml${NC}"
-
-# Create dynamic configuration file (for future use)
-echo -e "${YELLOW}Creating dynamic configuration...${NC}"
-
-# Backup existing dynamic.yml if it exists
-if [ -f "$CONFIG_DIR/dynamic.yml" ]; then
-    BACKUP_FILE="$CONFIG_DIR/dynamic.yml.backup.$(date +%Y%m%d-%H%M%S)"
-    cp "$CONFIG_DIR/dynamic.yml" "$BACKUP_FILE"
-    echo -e "${GREEN}Backup created: $BACKUP_FILE${NC}"
+    echo -e "${GREEN}Created Traefik configuration at $CONFIG_DIR/traefik.yml${NC}"
 fi
 
-cat > "$CONFIG_DIR/dynamic.yml" << 'EOF'
+# Create dynamic configuration file (for future use)
+if [ -f "$CONFIG_DIR/dynamic.yml" ]; then
+    echo -e "${YELLOW}dynamic.yml already exists, skipping creation...${NC}"
+else
+    echo -e "${YELLOW}Creating dynamic configuration...${NC}"
+    cat > "$CONFIG_DIR/dynamic.yml" << 'EOF'
 # Dynamic configuration for Traefik
 # This file can be modified without restarting Traefik
 
@@ -214,8 +204,8 @@ cat > "$CONFIG_DIR/dynamic.yml" << 'EOF'
 #         - "TLSv1.2"
 #         - "TLSv1.3"
 EOF
-
-echo -e "${GREEN}Created dynamic configuration at $CONFIG_DIR/dynamic.yml${NC}"
+    echo -e "${GREEN}Created dynamic configuration at $CONFIG_DIR/dynamic.yml${NC}"
+fi
 
 # Check if docker-compose.yml already exists
 if [ -f "$PROJECT_ROOT/docker-compose.yml" ]; then
@@ -265,6 +255,14 @@ services:
       - "traefik.http.routers.traefik.rule=Host(`traefik.localhost`)"
       - "traefik.http.routers.traefik.entrypoints=web"
       - "traefik.http.services.traefik.loadbalancer.server.port=8080"
+      - "traefik.enable=true"
+      - "traefik.http.routers.homeassistant.rule=Host(`homeassistant.broken.network`)"
+      - "traefik.http.routers.homeassistant.entrypoints=websecure"
+      - "traefik.http.routers.homeassistant.tls=true"
+      - "traefik.http.routers.homeassistant.tls.certresolver=r53"   
+      - "traefik.http.routers.homeassistant.tls.domains[0].main=broken.network"
+      - "traefik.http.routers.homeassistant.tls.domains[0].sans=*.broken.network"
+         
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/api/rawdata"]
       interval: 30s
