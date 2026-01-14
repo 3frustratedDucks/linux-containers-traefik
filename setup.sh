@@ -249,12 +249,14 @@ services:
       - ./acme.json:/acme.json:rw
     environment:
       - TZ=Europe/London
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_REGION=${AWS_REGION}
     command:
       - "--certificatesresolvers.r53.acme.email=Mich@elDevlin.com"
       - "--certificatesresolvers.r53.acme.storage=/acme.json"
-      - "--certificatesresolvers.r53.acme.tlschallenge=true"
       - "--certificatesresolvers.r53.acme.dnschallenge=true"
-      - "--certificatesresolvers.r53.acme.dnschallenge.provider=r53"
+      - "--certificatesresolvers.r53.acme.dnschallenge.provider=route53
       - "--certificatesresolvers.r53.acme.dnschallenge.delayBeforeCheck=60"
     networks:
       - traefik
