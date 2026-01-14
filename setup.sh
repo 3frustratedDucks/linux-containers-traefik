@@ -240,6 +240,7 @@ services:
     ports:
       - "80:80"      # HTTP
       - "8888:8080"  # Dashboard
+      - "443:443"    # HTTPS
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./config/traefik.yml:/etc/traefik/traefik.yml:ro
@@ -248,6 +249,13 @@ services:
       - ./acme.json:/acme.json:rw
     environment:
       - TZ=Europe/London
+    command:
+      - "--certificatesresolvers.r53.acme.email=Mich@elDevlin.com
+      - "--certificatesresolvers.r53.acme.storage=/acme.json"
+      - "--certificatesresolvers.r53.acme.tlschallenge=true"
+      - "--certificatesresolvers.r53.acme.dnschallenge=true"
+      - "--certificatesresolvers.r53.acme.dnschallenge.provider=r53"
+      - "--certificatesresolvers.r53.acme.dnschallenge.delayBeforeCheck=60
     networks:
       - traefik
     labels:
