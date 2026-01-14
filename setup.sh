@@ -263,13 +263,6 @@ services:
       - "traefik.http.routers.traefik.rule=Host(`traefik.localhost`)"
       - "traefik.http.routers.traefik.entrypoints=web"
       - "traefik.http.services.traefik.loadbalancer.server.port=8080"
-      - "traefik.enable=true"
-      - "traefik.http.routers.homeassistant.rule=Host(`homeassistant.broken.network`)"
-      - "traefik.http.routers.homeassistant.entrypoints=websecure"
-      - "traefik.http.routers.homeassistant.tls=true"
-      - "traefik.http.routers.homeassistant.tls.certresolver=r53"   
-      - "traefik.http.routers.homeassistant.tls.domains[0].main=broken.network"
-      - "traefik.http.routers.homeassistant.tls.domains[0].sans=*.broken.network"
          
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/api/rawdata"]
