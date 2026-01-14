@@ -136,6 +136,14 @@ mkdir -p "$PROJECT_ROOT/backups"
 
 # Create Traefik configuration file
 echo -e "${YELLOW}Creating Traefik configuration...${NC}"
+
+# Backup existing traefik.yml if it exists
+if [ -f "$CONFIG_DIR/traefik.yml" ]; then
+    BACKUP_FILE="$CONFIG_DIR/traefik.yml.backup.$(date +%Y%m%d-%H%M%S)"
+    cp "$CONFIG_DIR/traefik.yml" "$BACKUP_FILE"
+    echo -e "${GREEN}Backup created: $BACKUP_FILE${NC}"
+fi
+
 cat > "$CONFIG_DIR/traefik.yml" << 'EOF'
 # Traefik configuration file
 # HTTP-only configuration (Let's Encrypt can be added later)
@@ -178,6 +186,14 @@ echo -e "${GREEN}Created Traefik configuration at $CONFIG_DIR/traefik.yml${NC}"
 
 # Create dynamic configuration file (for future use)
 echo -e "${YELLOW}Creating dynamic configuration...${NC}"
+
+# Backup existing dynamic.yml if it exists
+if [ -f "$CONFIG_DIR/dynamic.yml" ]; then
+    BACKUP_FILE="$CONFIG_DIR/dynamic.yml.backup.$(date +%Y%m%d-%H%M%S)"
+    cp "$CONFIG_DIR/dynamic.yml" "$BACKUP_FILE"
+    echo -e "${GREEN}Backup created: $BACKUP_FILE${NC}"
+fi
+
 cat > "$CONFIG_DIR/dynamic.yml" << 'EOF'
 # Dynamic configuration for Traefik
 # This file can be modified without restarting Traefik
