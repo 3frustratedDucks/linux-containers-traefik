@@ -256,7 +256,7 @@ services:
       - "--certificatesresolvers.r53.acme.email=Mich@elDevlin.com"
       - "--certificatesresolvers.r53.acme.storage=/acme.json"
       - "--certificatesresolvers.r53.acme.dnschallenge=true"
-      - "--certificatesresolvers.r53.acme.dnschallenge.provider=route53
+      - "--certificatesresolvers.r53.acme.dnschallenge.provider=route53"
       - "--certificatesresolvers.r53.acme.dnschallenge.delayBeforeCheck=60"
     networks:
       - traefik
