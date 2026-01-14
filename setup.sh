@@ -239,6 +239,7 @@ services:
       - ./config/traefik.yml:/etc/traefik/traefik.yml:ro
       - ./config/dynamic.yml:/etc/traefik/dynamic.yml:ro
       - ./data:/data
+      - ./acme.json:/acme.json:rw
     environment:
       - TZ=Europe/London
     networks:
